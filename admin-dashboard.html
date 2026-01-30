@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Admin - Vortex Security</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css_pink_theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .admin-sidebar {
+            border-right: 1px solid var(--secondary-color);
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .status-offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .dashboard-section {
+            display: block;
+            /* Visible by default for scrolling */
+            margin-bottom: 60px;
+            padding-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+
+        .main-content {
+            padding-top: 100px !important;
+        }
+
+        .sidebar {
+            top: 80px !important;
+            height: calc(100vh - 80px) !important;
+        }
+
+        @media (max-width: 600px) {
+            .dashboard-container {
+                margin-top: 70px;
+            }
+
+            .sidebar {
+                top: 70px !important;
+                height: calc(100vh - 70px) !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header style="z-index: 9999 !important;">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="text-gradient">VORTEX</span>SECURITY
+            </a>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">Home</a>
+                    <div class="dropdown-menu">
+                        <a href="index.html">Home 1</a>
+                        <a href="index2.html">Home 2</a>
+                    </div>
+                </li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li class="dropdown">
+                    <a href="#">Dashboards</a>
+                    <div class="dropdown-menu">
+                        <a href="user-dashboard.html">User Dashboard</a>
+                        <a href="admin-dashboard.html">Admin Dashboard</a>
+                    </div>
+                </li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="nav-btn nav-btn-outline">Login</a></li>
+                <li><a href="signup.html" class="nav-btn nav-btn-primary">Sign Up</a></li>
+            </ul>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span id="theme-toggle" class="btn-icon js-theme-toggle" style="cursor: pointer;">🌙</span>
+                <span id="rtl-toggle" class="btn-icon" style="cursor: pointer;">🌐</span>
+                <div class="menu-toggle">☰</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar admin-sidebar" style="border-right-color: var(--secondary-color);">
+            <button class="sidebar-close" style="color: var(--secondary-color);">&times;</button>
+            <div style="height: 40px;"></div> <!-- Spacer replacement for logo -->
+            <div class="sidebar-label" style="color: var(--secondary-color);">Admin Panel</div>
+            <ul class="sidebar-menu">
+                <li><a href="#overview" class="nav-item active"
+                        style="color: var(--secondary-color); background: rgba(236, 72, 153, 0.1);">🌐 Global Status</a>
+                </li>
+                <li><a href="#users" class="nav-item">👥 Clients</a></li>
+                <li><a href="#services" class="nav-item">🛡️ Defenses</a></li>
+                <li><a href="#analytics" class="nav-item">📉 Threat Intel</a></li>
+                <li><a href="#reports" class="nav-item">📄 Reports</a></li>
+                <li><a href="#security" class="nav-item">🚨 Incidents</a></li>
+            </ul>
+            <div style="padding: 20px 0;">
+                <button class="btn js-theme-toggle" style="width: 100%; margin-bottom: 10px;">Change Theme 🌙</button>
+                <a href="index.html" class="btn"
+                    style="width: 100%; text-align: center; border: 1px solid var(--card-border);">Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header" style="border-color: var(--secondary-color);">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button id="sidebar-toggle" class="dashboard-menu-toggle">☰</button>
+                    <div>
+                        <h2 class="text-gradient">Security Operations Center</h2>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Threat Level: <span
+                                style="color: var(--success-color);">LOW</span></p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <div id="overview" class="dashboard-section active">
+                <div class="stats-grid">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon"
+                            style="color: var(--secondary-color); background: rgba(236, 72, 153, 0.1);">👥</div>
+                        <div>
+                            <h3><span class="counter" data-target="500">0</span>+</h3>
+                            <p>Protected Clients</p>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon"
+                            style="color: var(--secondary-color); background: rgba(236, 72, 153, 0.1);">☁️</div>
+                        <div>
+                            <h3><span class="counter" data-target="100">0</span>%</h3>
+                            <p>Uptime</p>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon"
+                            style="color: var(--secondary-color); background: rgba(236, 72, 153, 0.1);">⚠️</div>
+                        <div>
+                            <h3><span class="counter" data-target="3">0</span></h3>
+                            <p>Active Alerts</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row 1: 3 columns -->
+                <div class="stats-grid">
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Attack Traffic</h3>
+                        <canvas id="revenueChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Threat Origin</h3>
+                        <canvas id="serverChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Client Distribution</h3>
+                        <canvas id="clientDistChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 2: 3 columns -->
+                <div class="stats-grid">
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Response Time (ms)</h3>
+                        <canvas id="responseTimeChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Attacks by Region</h3>
+                        <canvas id="regionChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Compliance Status</h3>
+                        <canvas id="complianceChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 3: 3 columns -->
+                <div class="stats-grid" style="margin-top: 20px;">
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Global Infra Health</h3>
+                        <canvas id="infraHealthChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">SOC Response Efficiency</h3>
+                        <canvas id="socEfficiencyChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Attack Vector Distribution</h3>
+                        <canvas id="attackVectorChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 4: 3 columns -->
+                <div class="stats-grid" style="margin-top: 20px;">
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Top Targeted Sectors</h3>
+                        <canvas id="targetedSectorsChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Resource Utilization</h3>
+                        <canvas id="resourceUtilChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 20px;">Breach Point Density</h3>
+                        <canvas id="breachDensityChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 5: Incident Trend full width -->
+                <div class="glass-card" style="padding: 20px; margin-top: 20px;">
+                    <h3 style="margin-bottom: 20px;">Incident Trend (30 Days)</h3>
+                    <canvas id="incidentTrendChart" height="100"></canvas>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div id="users" class="dashboard-section">
+                <h2 class="text-gradient">Client Management</h2>
+                <div class="glass-card" style="margin-top: 20px; padding: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <input type="text" placeholder="Search clients..."
+                            style="padding: 10px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.1); color: var(--text-color);">
+                        <button class="btn btn-primary">+ Add Client</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Plan</th>
+                                <th>Last Audit</th>
+                                <th>Security Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nexus Corp</td>
+                                <td>Enterprise</td>
+                                <td>Oct 24, 2025</td>
+                                <td><span class="status-badge status-active">Secure</span></td>
+                                <td><button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Log</button></td>
+                            </tr>
+                            <tr>
+                                <td>Alpha Industries</td>
+                                <td>Startup</td>
+                                <td>Oct 23, 2025</td>
+                                <td><span class="status-badge status-pending">Scanning</span></td>
+                                <td><button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Log</button></td>
+                            </tr>
+                            <tr>
+                                <td>Omega Labs</td>
+                                <td>Corporate</td>
+                                <td>Oct 22, 2025</td>
+                                <td><span class="status-badge status-offline">Breached</span></td>
+                                <td><button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Isolate</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <div id="services" class="dashboard-section">
+                <h2 class="text-gradient">Active Defenses</h2>
+                <div class="stats-grid" style="margin-top: 20px;">
+                    <div class="glass-card" style="padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>Firewall Cluster 1</h3>
+                            <span class="status-badge status-active">Active</span>
+                        </div>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Load: 45% | Packets/s: 2.4M</p>
+                        <div
+                            style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 45%; height: 100%; background: var(--success-color);"></div>
+                        </div>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>AI Threat Hunter</h3>
+                            <span class="status-badge status-active">Scanning</span>
+                        </div>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Load: 12% | Anomalies: 0</p>
+                        <div
+                            style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 12%; height: 100%; background: var(--success-color);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analytics" class="dashboard-section">
+                <h2 class="text-gradient">Threat Intelligence</h2>
+                <div class="threat-map-container"
+                    style="position: relative; overflow: hidden; background: #050b14; border-radius: 16px;">
+                    <canvas id="threat-activity-bg-admin" class="wave-background-canvas" style="opacity: 0.8;"></canvas>
+                    <canvas id="threat-activity-chart-admin" class="threat-activity-chart-canvas"
+                        style="position: relative; z-index: 2; height: 400px;"></canvas>
+
+                    <div class="map-grid"></div>
+                    <div class="scan-bar"></div>
+                    <!-- Virtual Threat Nodes with Labels -->
+                    <div class="threat-node critical" style="top: 25%; left: 30%;">
+                        <span class="threat-label">SQLi: 192.168.1.42</span>
+                    </div>
+                    <div class="threat-node warning" style="top: 45%; left: 70%;">
+                        <span class="threat-label">Brute: 45.2.1.9</span>
+                    </div>
+                    <div class="threat-node" style="top: 60%; left: 45%;">
+                        <span class="threat-label">Scan: 88.1.0.4</span>
+                    </div>
+                    <div class="threat-node critical" style="top: 15%; left: 80%;">
+                        <span class="threat-label">XSS: 102.3.4.1</span>
+                    </div>
+                    <div class="threat-node warning" style="top: 75%; left: 20%;">
+                        <span class="threat-label">DDoS: 22.1.9.3</span>
+                    </div>
+
+                    <div class="telemetry-overlay">
+                        <div
+                            style="border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 5px; padding-bottom: 2px;">
+                            SYS_LOG v.4.2</div>
+                        <ul class="telemetry-log">
+                            <li>> Pinging satellite...</li>
+                            <li>> Tracking ID: 0x2A</li>
+                            <li>> Uplink Stable</li>
+                            <li>> Analyzing stream...</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="position: absolute; bottom: 20px; left: 20px; color: white; font-size: 0.8rem; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 4px; font-family: monospace;">
+                        LOCATION: LAT 40.7 / LONG -74.0
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="reports" class="dashboard-section">
+                <h2 class="text-gradient">Compliance & Logs</h2>
+                <div class="glass-card" style="margin-top: 20px; padding: 20px;">
+                    <div
+                        style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border);">
+                        <h3>Generate Report</h3>
+                        <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                            <select
+                                style="padding: 10px; border-radius: 5px; background: rgba(0,0,0,0.2); color: var(--text-color); border: 1px solid var(--card-border);">
+                                <option>Executive Summary</option>
+                                <option>Technical Audit Details</option>
+                                <option>GDPR Compliance Check</option>
+                            </select>
+                            <input type="date"
+                                style="padding: 10px; border-radius: 5px; background: rgba(0,0,0,0.2); color: var(--text-color); border: 1px solid var(--card-border);">
+                            <button class="btn btn-primary">Generate PDF</button>
+                        </div>
+                    </div>
+
+                    <h3>Available Reports</h3>
+                    <table class="data-table" style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Report Name</th>
+                                <th>Date Generated</th>
+                                <th>Generated By</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Q4 Security Audit.pdf</td>
+                                <td>Jan 01, 2026</td>
+                                <td>System</td>
+                                <td><a href="#" style="color: var(--primary-color);">Download</a></td>
+                            </tr>
+                            <tr>
+                                <td>Incident 40291 Post-Mortem.pdf</td>
+                                <td>Dec 28, 2025</td>
+                                <td>Alex Chen</td>
+                                <td><a href="#" style="color: var(--primary-color);">Download</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div id="security" class="dashboard-section">
+                <h2 class="text-gradient">Incident Response Logs</h2>
+                <div class="glass-card" style="margin-top: 20px; padding: 20px;">
+                    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+                        <div style="font-size: 2rem; color: var(--success-color);">🛡️</div>
+                        <div>
+                            <h3>System Status: GREEN</h3>
+                            <p>Last breach attempt blocked: 2 mins ago</p>
+                        </div>
+                    </div>
+                    <h3>Recent Security Events</h3>
+                    <ul style="list-style: none; margin-top: 10px;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">[BLOCK] SQL
+                            Injection attempt from IP 104.23.xx.xx</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">[WARN] Multiple
+                            failed login attempts (User: admin)</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+
+        <script src="main.js"></script>
+        <script src="threat-charts.js"></script>
+
+    </div>
+
+    <footer class="dashboard-footer" style="background: var(--card-bg); border-top: 1px solid var(--card-border);">
+        <div class="container" style="padding: 60px 20px 30px;">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h3 style="margin-bottom: 20px;"><span class="text-gradient">VORTEX</span>SECURITY</h3>
+                    <p style="opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">Securing your digital future with
+                        military-grade threat detection and 24/7 monitoring.</p>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none;">X</a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none;">in</a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none;">ig</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="about.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">About Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="services.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Services</a></li>
+                        <li style="margin-bottom: 10px;"><a href="contact.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Our Services</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="services.html#threat-detection"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Threat
+                                Detection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="services.html#network-security"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Network
+                                Security</a></li>
+                        <li style="margin-bottom: 10px;"><a href="services.html#incident-response"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Incident
+                                Response</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Contact Us</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📍 Cyber Fortress Alpha<br>Silicon Valley, CA
+                        </li>
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📧 secure@vortexsecurity.io</li>
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📞 +1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--card-border); padding-top: 30px; text-align: center;">
+                <p style="opacity: 0.7;">&copy;
+                    <script>document.write(new Date().getFullYear())</script> Vortex Security. All rights reserved. | <a
+                        href="#" style="color: var(--primary-color); text-decoration: none;">Privacy Policy</a> | <a
+                        href="#" style="color: var(--primary-color); text-decoration: none;">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="rtlToggle.js"></script>
+    <script>
+        // Sidebar Toggle
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        const closeBtn = document.querySelector('.sidebar-close');
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900 &&
+                !sidebar.contains(e.target) &&
+                !toggleBtn.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+
+
+        // Global Chart Defaults
+        const isDarkTheme = () => document.body.classList.contains('dark-theme');
+        const getChartColor = () => isDarkTheme() ? '#ffffff' : '#1a1a2e';
+        const getGridColor = () => isDarkTheme() ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+        Chart.defaults.color = getChartColor();
+        Chart.defaults.borderColor = getGridColor();
+
+        const charts = {};
+
+        // Revenue Chart (Repurposed for Attack Traffic)
+        const ctxRev = document.getElementById('revenueChart').getContext('2d');
+        charts.revenue = new Chart(ctxRev, {
+            type: 'bar',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                datasets: [{
+                    label: 'Attacks Blocked',
+                    data: [120, 190, 30, 50, 200, 300],
+                    backgroundColor: '#ec4899'
+                }]
+            },
+            options: {
+                responsive: true, plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Server Chart (Repurposed for Threat Origin)
+        const ctxSrv = document.getElementById('serverChart').getContext('2d');
+        charts.server = new Chart(ctxSrv, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ransomware', 'Phishing', 'DDoS'],
+                datasets: [{
+                    data: [300, 50, 100],
+                    backgroundColor: ['#6366f1', '#ec4899', '#8b5cf6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Client Distribution Chart (Polar Area)
+        const ctxClient = document.getElementById('clientDistChart').getContext('2d');
+        charts.clientDist = new Chart(ctxClient, {
+            type: 'polarArea',
+            data: {
+                labels: ['Enterprise', 'Corporate', 'Startup', 'Government'],
+                datasets: [{
+                    data: [200, 150, 100, 50],
+                    backgroundColor: ['#6366f1', '#ec4899', '#8b5cf6', '#22c55e'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Response Time Chart (Line)
+        const ctxResponse = document.getElementById('responseTimeChart').getContext('2d');
+        charts.responseTime = new Chart(ctxResponse, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Avg Response',
+                    data: [45, 42, 38, 35, 40, 32, 28],
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Region Attack Chart (Bar)
+        const ctxRegion = document.getElementById('regionChart').getContext('2d');
+        charts.region = new Chart(ctxRegion, {
+            type: 'bar',
+            data: {
+                labels: ['NA', 'EU', 'APAC', 'LATAM', 'MENA'],
+                datasets: [{
+                    label: 'Attacks',
+                    data: [350, 280, 420, 120, 180],
+                    backgroundColor: ['#6366f1', '#ec4899', '#8b5cf6', '#22c55e', '#f59e0b']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Compliance Status Chart (Doughnut)
+        const ctxCompliance = document.getElementById('complianceChart').getContext('2d');
+        charts.compliance = new Chart(ctxCompliance, {
+            type: 'doughnut',
+            data: {
+                labels: ['Compliant', 'Pending', 'Non-Compliant'],
+                datasets: [{
+                    data: [420, 60, 20],
+                    backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Incident Trend Chart (Line)
+        const ctxIncident = document.getElementById('incidentTrendChart').getContext('2d');
+        charts.incidentTrend = new Chart(ctxIncident, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Critical',
+                    data: [3, 2, 1, 0],
+                    borderColor: '#ef4444',
+                    tension: 0.4
+                }, {
+                    label: 'High',
+                    data: [8, 6, 5, 3],
+                    borderColor: '#f59e0b',
+                    tension: 0.4
+                }, {
+                    label: 'Medium',
+                    data: [15, 12, 10, 8],
+                    borderColor: '#eab308',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: getChartColor() }
+                    }
+                },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Global Infrastructure Health (Radar)
+        const ctxInfra = document.getElementById('infraHealthChart').getContext('2d');
+        charts.infraHealth = new Chart(ctxInfra, {
+            type: 'radar',
+            data: {
+                labels: ['Compute', 'Storage', 'Network', 'Security', 'Redundancy', 'Speed'],
+                datasets: [{
+                    label: 'Nodes Active',
+                    data: [98, 95, 99, 100, 92, 97],
+                    borderColor: '#00f3ff',
+                    backgroundColor: 'rgba(0, 243, 255, 0.2)',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: { color: getGridColor() },
+                        grid: { color: getGridColor() },
+                        pointLabels: { color: getChartColor() },
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+
+        // SOC Response Efficiency (Radar)
+        const ctxSoc = document.getElementById('socEfficiencyChart').getContext('2d');
+        charts.socEfficiency = new Chart(ctxSoc, {
+            type: 'radar',
+            data: {
+                labels: ['Detection', 'Containment', 'Eradication', 'Recovery', 'Forensics', 'Reporting'],
+                datasets: [{
+                    label: 'Team Performance',
+                    data: [95, 88, 85, 92, 90, 99],
+                    borderColor: '#bc13fe',
+                    backgroundColor: 'rgba(188, 19, 254, 0.2)',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: { color: getGridColor() },
+                        grid: { color: getGridColor() },
+                        pointLabels: { color: getChartColor() },
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Attack Vector Distribution (Polar Area)
+        const ctxVector = document.getElementById('attackVectorChart').getContext('2d');
+        charts.attackVector = new Chart(ctxVector, {
+            type: 'polarArea',
+            data: {
+                labels: ['Web App', 'Network', 'Endpoint', 'Cloud', 'Social'],
+                datasets: [{
+                    data: [450, 300, 200, 150, 100],
+                    backgroundColor: ['#6366f1', '#ec4899', '#8b5cf6', '#22c55e', '#f59e0b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom', labels: { color: getChartColor() } } },
+                scales: { r: { grid: { color: getGridColor() } } }
+            }
+        });
+
+        // Top Targeted Sectors (Horizontal Bar)
+        const ctxSectors = document.getElementById('targetedSectorsChart').getContext('2d');
+        charts.targetedSectors = new Chart(ctxSectors, {
+            type: 'bar',
+            data: {
+                labels: ['Finance', 'Healthcare', 'Gov', 'Tech', 'Retail'],
+                datasets: [{
+                    label: 'Attack Density',
+                    data: [85, 72, 65, 50, 40],
+                    backgroundColor: '#ec4899'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } },
+                    y: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } }
+                }
+            }
+        });
+
+        // Resource Utilization (Multi-series Line)
+        const ctxRes = document.getElementById('resourceUtilChart').getContext('2d');
+        charts.resourceUtil = new Chart(ctxRes, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '06:00', '12:00', '18:00', '23:59'],
+                datasets: [{
+                    label: 'CPU',
+                    data: [20, 45, 80, 55, 30],
+                    borderColor: '#6366f1',
+                    tension: 0.4
+                }, {
+                    label: 'RAM',
+                    data: [40, 50, 75, 60, 45],
+                    borderColor: '#ec4899',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'top', labels: { color: getChartColor() } } },
+                scales: {
+                    y: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } },
+                    x: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } }
+                }
+            }
+        });
+
+        // Active Breach Point Density (Bubble)
+        const ctxBreach = document.getElementById('breachDensityChart').getContext('2d');
+        charts.breachDensity = new Chart(ctxBreach, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Node Vulnerability',
+                    data: [
+                        { x: 10, y: 30, r: 15 },
+                        { x: 40, y: 10, r: 10 },
+                        { x: 70, y: 50, r: 25 },
+                        { x: 20, y: 60, r: 5 }
+                    ],
+                    backgroundColor: '#ef4444'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } },
+                    y: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } }
+                }
+            }
+        });
+
+        // Update charts on theme change
+        window.addEventListener('themeChanged', (e) => {
+            const newColor = getChartColor();
+            const newGridColor = getGridColor();
+
+            Chart.defaults.color = newColor;
+            Chart.defaults.borderColor = newGridColor;
+
+            Object.values(charts).forEach(chart => {
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.ticks.color = newColor;
+                        if (chart.options.scales.x.grid) chart.options.scales.x.grid.color = newGridColor;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.ticks.color = newColor;
+                        if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = newGridColor;
+                    }
+                }
+                if (chart.options.plugins && chart.options.plugins.legend) {
+                    chart.options.plugins.legend.labels.color = newColor;
+                }
+                chart.update();
+            });
+        });
+    </script>
+</body>
+
+</html>

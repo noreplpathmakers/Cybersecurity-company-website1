@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Vortex Security</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css_pink_theme.css">
+    <style>
+        .contact-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 80px;
+        }
+
+        .contact-wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .contact-wrapper {
+                flex-direction: column;
+            }
+
+            .contact-info {
+                order: 2;
+            }
+
+            .contact-form {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><span class="text-gradient">VORTEX</span>SECURITY</a>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">Home <span class="dropdown-arrow">▾</span></a>
+                    <div class="dropdown-menu">
+                        <a href="index.html">Home 1</a>
+                        <a href="index2.html">Home 2</a>
+                    </div>
+                </li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li class="dropdown">
+                    <a href="#">Dashboards <span class="dropdown-arrow">▾</span></a>
+                    <div class="dropdown-menu">
+                        <a href="user-dashboard.html">User Dashboard</a>
+                        <a href="admin-dashboard.html">Admin Dashboard</a>
+                    </div>
+                </li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="login.html" class="nav-btn nav-btn-outline">Login</a></li>
+                <li><a href="signup.html" class="nav-btn nav-btn-primary">Sign Up</a></li>
+            </ul>
+            <div class="nav-actions">
+                <span id="theme-toggle" class="btn-icon js-theme-toggle" style="cursor: pointer;">🌙</span>
+                <span id="rtl-toggle" class="btn-icon" style="cursor: pointer;">🌐</span>
+                <div class="menu-toggle">☰</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="contact-container fade-in">
+        <div class="contact-wrapper">
+            <!-- Contact Form Section -->
+            <div class="glass-card contact-form" style="flex: 1.5; padding: 40px; transform-style: preserve-3d;">
+                <h2 class="text-gradient" style="margin-bottom: 30px; text-align: center;">Transmit Signal</h2>
+                <form id="contact-form">
+                    <div class="cyber-input-wrapper">
+                        <label for="name" class="cyber-label">Name</label>
+                        <input type="text" id="name" name="name" class="cyber-input" placeholder="Your Designation..."
+                            required>
+                    </div>
+
+                    <div class="cyber-input-wrapper">
+                        <label for="email" class="cyber-label">Email</label>
+                        <input type="email" id="email" name="email" class="cyber-input"
+                            placeholder="Secure Frequency..." required>
+                    </div>
+
+                    <div class="cyber-input-wrapper">
+                        <label for="message" class="cyber-label">Message</label>
+                        <textarea id="message" name="message" class="cyber-textarea"
+                            placeholder="Input your transmission data..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; height: 55px; font-size: 1.1rem; border-radius: 12px; margin-top: 10px;">
+                        <span style="letter-spacing: 2px;">TRANSMIT</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Contact Info Section -->
+            <div class="contact-info" style="flex: 1; display: flex; flex-direction: column; gap: 30px;">
+                <div class="glass-card" style="padding: 30px; transform-style: preserve-3d;">
+                    <h2 class="text-gradient" style="margin-top: 0;">Infiltration Intel</h2>
+                    <p style="opacity: 0.9; margin-bottom: 25px;">Contact our command center for strategic partnerships
+                        or security inquiries.</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="font-size: 1.5rem; color: var(--primary-color);">📍</span>
+                            <div>
+                                <h4 style="margin: 0; font-size: 0.9rem; color: var(--secondary-color);">COMMAND CENTER
+                                </h4>
+                                <p style="margin: 5px 0 0; font-size: 0.95rem; opacity: 0.8;">Cyber Fortress Alpha,
+                                    10101 Encryption Blvd,<br>Silicon Valley, CA 94088</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="font-size: 1.5rem; color: var(--primary-color);">📧</span>
+                            <div>
+                                <h4 style="margin: 0; font-size: 0.9rem; color: var(--secondary-color);">SECURE CHANNEL
+                                </h4>
+                                <p style="margin: 5px 0 0; font-size: 0.95rem; opacity: 0.8;">
+                                    secure@vortexsecurity.io<br>pgp-key: VTX-9982</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="font-size: 1.5rem; color: var(--primary-color);">📞</span>
+                            <div>
+                                <h4 style="margin: 0; font-size: 0.9rem; color: var(--secondary-color);">HOTLINE</h4>
+                                <p style="margin: 5px 0 0; font-size: 0.95rem; opacity: 0.8;">+1 (555)
+                                    VORTEX-SEC<br>24/7 Priority Support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Embedded Map Card -->
+                <div class="glass-card"
+                    style="padding: 10px; border-radius: 16px; overflow: hidden; height: 100%; min-height: 250px;">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3168.6395!2d-122.0842!3d37.4219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fba02425dad8f%3A0x6c296c66619367e0!2sGoogleplex!5e0!3m2!1sen!2sus!4v1234567890"
+                        width="100%" height="100%" style="border:0; border-radius: 12px; min-height: 250px;"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Offices -->
+    <section class="section-padding container">
+        <h2 class="text-gradient" style="text-align: center; margin-bottom: 40px;">Global Command Centers</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+            <div class="glass-card" style="padding: 30px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">🇺🇸</div>
+                <h3 style="color: var(--primary-color); margin-top: 0;">Silicon Valley</h3>
+                <p style="font-size: 0.9rem; opacity: 0.8;">10101 Encryption Blvd<br>San Jose, CA 94088</p>
+                <p style="margin-top: 10px; font-weight: bold; color: var(--secondary-color);">+1 (555) 123-4567</p>
+            </div>
+            <div class="glass-card" style="padding: 30px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">🇬🇧</div>
+                <h3 style="color: var(--secondary-color); margin-top: 0;">London</h3>
+                <p style="font-size: 0.9rem; opacity: 0.8;">42 Cyber Lane,<br>Canary Wharf, London E14</p>
+                <p style="margin-top: 10px; font-weight: bold; color: var(--secondary-color);">+44 20 7946 0123</p>
+            </div>
+            <div class="glass-card" style="padding: 30px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 15px;">🇸🇬</div>
+                <h3 style="color: var(--accent-color); margin-top: 0;">Singapore</h3>
+                <p style="font-size: 0.9rem; opacity: 0.8;">88 Tech Park Crescent,<br>Singapore 139988</p>
+                <p style="margin-top: 10px; font-weight: bold; color: var(--secondary-color);">+65 6789 0123</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section-padding container">
+        <h2 class="text-gradient" style="text-align: center; margin-bottom: 40px;">Mission FAQ</h2>
+        <div class="glass-card" style="padding: 40px; transform-style: preserve-3d;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--primary-color);">How fast can you respond to an
+                        incident?</h4>
+                    <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.95rem;">Our average response time for
+                        critical incidents is under 15 minutes. Our SOC is staffed 24/7/365 to handle emergency
+                        breaches.</p>
+
+                    <h4 style="margin-bottom: 10px; color: var(--primary-color);">Do you support cloud environments?
+                    </h4>
+                    <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.95rem;">Yes, we specialize in securing
+                        AWS, Azure, and GCP environments, including hybrid and multi-cloud architectures with Zero Trust
+                        protocols.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--primary-color);">Are your services compliant with GDPR?
+                    </h4>
+                    <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.95rem;">Absolutely. All our operations and
+                        data handling processes are fully GDPR, CCPA, and HIPAA compliant. We provide full audit trails.
+                    </p>
+
+                    <h4 style="margin-bottom: 10px; color: var(--primary-color);">Do you offer penetration testing?</h4>
+                    <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.95rem;">Yes, we offer both scheduled
+                        annual assessments and continuous red-teaming services to identify vulnerabilities before
+                        adversaries do.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section-padding"
+        style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(79, 70, 229, 0.1)); padding: 80px 0;">
+        <div class="container" style="text-align: center; max-width: 700px;">
+            <h2 class="text-gradient" style="margin-bottom: 20px;">Join the Intelligence Briefing</h2>
+            <p style="margin-bottom: 30px; opacity: 0.8;">Get critical threat alerts and security insights delivered
+                directly to your encrypted inbox. Stay ahead of the curve.</p>
+            <form style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                <input type="email" placeholder="Enter your secure email..."
+                    style="flex: 1; min-width: 280px; padding: 18px 25px; border-radius: 50px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.05); color: #fff; outline: none;">
+                <button type="submit" class="btn btn-primary"
+                    style="padding: 18px 40px; border-radius: 50px;">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="background: var(--card-bg); border-top: 1px solid var(--card-border);">
+        <div class="container" style="padding: 60px 20px 30px;">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h3 style="margin-bottom: 20px;"><span class="text-gradient">VORTEX</span>SECURITY</h3>
+                    <p style="opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">Securing your digital future with
+                        military-grade threat detection and 24/7 monitoring.</p>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none; transition: all 0.3s;"
+                            onmouseover="this.style.background='var(--primary-color)'; this.style.color='white';"
+                            onmouseout="this.style.background='rgba(99, 102, 241, 0.1)'; this.style.color='var(--primary-color)';">
+                            𝕏
+                        </a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none; transition: all 0.3s;"
+                            onmouseover="this.style.background='var(--primary-color)'; this.style.color='white';"
+                            onmouseout="this.style.background='rgba(99, 102, 241, 0.1)'; this.style.color='var(--primary-color)';">
+                            in
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="about.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8; transition: opacity 0.3s;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">About Us</a>
+                        </li>
+                        <li style="margin-bottom: 10px;"><a href="services.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8; transition: opacity 0.3s;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Services</a>
+                        </li>
+                        <li style="margin-bottom: 10px;"><a href="contact.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8; transition: opacity 0.3s;"
+                                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Support</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="#"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Priority Desk</a>
+                        </li>
+                        <li style="margin-bottom: 10px;"><a href="#"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Status Page</a>
+                        </li>
+                        <li style="margin-bottom: 10px;"><a href="#"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Documentation</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Contact Us</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📍 Cyber Fortress Alpha</li>
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📧 secure@vortexsecurity.io</li>
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📞 +1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--card-border); padding-top: 30px; text-align: center;">
+                <p style="opacity: 0.7;">&copy;
+                    <script>document.write(new Date().getFullYear())</script> Vortex Security. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="rtlToggle.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

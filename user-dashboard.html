@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Vortex Security</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css_pink_theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-section {
+            display: block;
+            /* Visible by default for scrolling */
+            margin-bottom: 60px;
+            padding-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+
+        .main-content {
+            padding-top: 100px !important;
+        }
+
+        .sidebar {
+            top: 80px !important;
+            height: calc(100vh - 80px) !important;
+        }
+
+        @media (max-width: 600px) {
+            .dashboard-container {
+                margin-top: 70px;
+            }
+
+            .sidebar {
+                top: 70px !important;
+                height: calc(100vh - 70px) !important;
+            }
+
+            .nav-container {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                gap: 0 !important;
+                padding: 0 10px !important;
+            }
+
+            .logo {
+                font-size: 0.9rem !important;
+                letter-spacing: -0.2px !important;
+                flex: 0 1 auto !important;
+                overflow: visible !important;
+                white-space: nowrap !important;
+                min-width: 0 !important;
+            }
+
+            .nav-actions {
+                display: flex !important;
+                gap: 8px !important;
+                flex: 0 0 auto !important;
+                margin-left: 50px !important;
+                align-items: center !important;
+                z-index: 10001 !important;
+            }
+
+            .btn-icon,
+            .menu-toggle {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 1.25rem !important;
+                color: var(--text-color) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                cursor: pointer !important;
+                padding: 4px !important;
+                min-width: 25px !important;
+                line-height: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <div class="page-bg-3d bg-3d-container"></div>
+    <header style="z-index: 9999 !important;">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="text-gradient">VORTEX</span>SECURITY
+            </a>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">Home <span class="dropdown-arrow">▾</span></a>
+                    <div class="dropdown-menu">
+                        <a href="index.html">Home 1</a>
+                        <a href="index2.html">Home 2</a>
+                    </div>
+                </li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li class="dropdown">
+                    <a href="#">Dashboards <span class="dropdown-arrow">▾</span></a>
+                    <div class="dropdown-menu">
+                        <a href="user-dashboard.html">User Dashboard</a>
+                        <a href="admin-dashboard.html">Admin Dashboard</a>
+                    </div>
+                </li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="nav-btn nav-btn-outline">Login</a></li>
+                <li><a href="signup.html" class="nav-btn nav-btn-primary">Sign Up</a></li>
+            </ul>
+            <div class="nav-actions">
+                <span id="theme-toggle" class="btn-icon js-theme-toggle" style="cursor: pointer;">🌙</span>
+                <span id="rtl-toggle" class="btn-icon" style="cursor: pointer;">🌐</span>
+                <span class="menu-toggle" style="cursor: pointer;">☰</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="sidebar-close">&times;</button>
+            <div style="height: 40px;"></div> <!-- Spacer replacement for logo -->
+            <div class="sidebar-label">User Panel</div>
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="nav-item active">🛡️ Threat Intel</a></li>
+                <li><a href="#projects" class="nav-item">🔍 Audits</a></li>
+                <li><a href="#messages" class="nav-item">💬 Alerts</a></li>
+                <li><a href="#billing" class="nav-item">💳 Billing</a></li>
+                <li><a href="#training" class="nav-item">🎓 Training</a></li>
+                <li><a href="#settings" class="nav-item">⚙️ Settings</a></li>
+            </ul>
+            <div style="padding: 20px 0;">
+                <button class="btn js-theme-toggle" style="width: 100%; margin-bottom: 10px; font-size: 0.8rem;">Change
+                    Theme 🌙</button>
+                <a href="index.html" class="btn"
+                    style="width: 100%; text-align: center; border: 1px solid var(--card-border);">Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button id="sidebar-toggle" class="dashboard-menu-toggle">☰</button>
+                    <div>
+                        <h2>Welcome back, Alex!</h2>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">System Status: <span
+                                style="color: var(--success-color);">SECURE</span></p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div
+                        style="width: 40px; height: 40px; background: url('assets/threat_intel_bg.jpg') center/cover; border-radius: 50%;">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="dashboard-section active">
+                <div class="stats-grid">
+                    <div class="glass-card stat-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare
+                        data-tilt-max-glare="0.4" data-tilt-scale="1.02">
+
+                        <div class="stat-icon">🛡️</div>
+                        <div>
+                            <h3><span class="counter" data-target="0">0</span></h3>
+                            <p>Active Threats</p>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare
+                        data-tilt-max-glare="0.4" data-tilt-scale="1.02">
+
+                        <div class="stat-icon">⚡</div>
+                        <div>
+                            <h3><span class="counter" data-target="98">0</span>%</h3>
+                            <p>Security Score</p>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare
+                        data-tilt-max-glare="0.4" data-tilt-scale="1.02">
+
+                        <div class="stat-icon">👁️</div>
+                        <div>
+                            <h3><span class="counter" data-target="24">0</span>/7</h3>
+                            <p>Monitoring On</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px; margin-bottom: 20px;">Global Threat Intelligence</h3>
+                <div class="threat-map-container"
+                    style="height: 300px; position: relative; overflow: hidden; background: #050b14; border-radius: 16px;">
+                    <canvas id="threat-activity-bg-user" class="wave-background-canvas" style="opacity: 0.8;"></canvas>
+                    <canvas id="threat-activity-chart-user" class="threat-activity-chart-canvas"
+                        style="position: relative; z-index: 2; height: 100%;"></canvas>
+
+                    <div class="map-grid"></div>
+                    <div class="scan-bar"></div>
+                    <div class="threat-node critical" style="top: 30%; left: 25%;">
+                        <span class="threat-label">Blocked: 1.2.3.4</span>
+                    </div>
+                    <div class="threat-node warning" style="top: 55%; left: 65%;">
+                        <span class="threat-label">Mitigated: 8.8.8.8</span>
+                    </div>
+                    <div class="threat-node" style="top: 70%; left: 50%;">
+                        <span class="threat-label">Analyzed: 45.42.1.0</span>
+                    </div>
+                    <div class="telemetry-overlay" style="width: 120px;">
+                        <ul class="telemetry-log">
+                            <li>- SECURE LINK</li>
+                            <li>- ENCRYPTED</li>
+                            <li>- MONITORING</li>
+                        </ul>
+                    </div>
+                    <div
+                        style="position: absolute; top: 20px; right: 20px; color: var(--success-color); font-size: 0.7rem; font-family: monospace;">
+                        DECRYPTING... 0x4A2B
+                    </div>
+                </div>
+
+                <!-- Charts Row 1: 3 columns -->
+                <div class="stats-grid">
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Attempted Intrusions</h3>
+                        <canvas id="usageChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Threat Types</h3>
+                        <canvas id="threatTypesChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Security Score Trend</h3>
+                        <canvas id="securityScoreChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 2: 3 columns -->
+                <div class="stats-grid">
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Weekly Attack Summary</h3>
+                        <canvas id="weeklyAttackChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Network Traffic Analysis</h3>
+                        <canvas id="networkTrafficChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Threat Severity Distribution</h3>
+                        <canvas id="severityChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 3: 3 columns -->
+                <div class="stats-grid">
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">App Security Profile</h3>
+                        <canvas id="appSecurityChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Vulnerability Timeline</h3>
+                        <canvas id="vulnerabilityTimelineChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Device Trust Level</h3>
+                        <canvas id="deviceTrustChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 4: 3 columns -->
+                <div class="stats-grid">
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Login Activity Locations</h3>
+                        <canvas id="loginLocationsChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">API Request Volume</h3>
+                        <canvas id="apiVolumeChart" height="200"></canvas>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                        data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.01">
+
+                        <h3 style="margin-bottom: 20px;">Network Latency (ms)</h3>
+                        <canvas id="latencyChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Logs Section -->
+                <div class="glass-card" style="padding: 20px; margin-top: 20px;">
+                    <h3 style="margin-bottom: 20px;">Recent Logs</h3>
+                    <ul class="stats-grid" style="list-style: none;">
+                        <li style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+                            <strong>IP 192.168.x.x</strong> blocked.<br>
+                            <span style="font-size: 0.8rem; opacity: 0.6;">2 mins ago</span>
+                        </li>
+                        <li style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+                            <strong>Audit</strong> scan completed.<br>
+                            <span style="font-size: 0.8rem; opacity: 0.6;">1 hour ago</span>
+                        </li>
+                        <li style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+                            Malware signature updated.<br>
+                            <span style="font-size: 0.8rem; opacity: 0.6;">5 hours ago</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div id="projects" class="dashboard-section">
+                <h1 class="text-gradient">Security Audits</h1>
+                <div class="stats-grid" style="margin-top: 20px;">
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3>Network Pen-Test</h3>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Status: <span
+                                style="color: var(--success-color);">Passed</span></p>
+                        <button class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 16px;">View
+                            Report</button>
+                    </div>
+                    <div class="glass-card" style="padding: 20px;">
+                        <h3>Cloud Compliance</h3>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Status: <span
+                                style="color: var(--secondary-color);">In Progress</span></p>
+                        <button class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 16px;">Details</button>
+                    </div>
+                    <div class="glass-card"
+                        style="padding: 20px; display: flex; align-items: center; justify-content: center; border: 2px dashed var(--card-border);">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem;">+</div>
+                            <p>Request New Audit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Section -->
+            <div id="messages" class="dashboard-section">
+                <h1 class="text-gradient">Security Alerts</h1>
+                <div class="glass-card" style="margin-top: 20px; padding: 20px;">
+                    <ul style="list-style: none;">
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <strong>SOC Team</strong> - Incident #40291 Resolved
+                            <p style="font-size: 0.8rem; opacity: 0.7;">The suspicious traffic from region A has been
+                                mitigated.</p>
+                        </li>
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <strong>Automated Bot</strong> - Patch Warning
+                            <p style="font-size: 0.8rem; opacity: 0.7;">Critical security patch available for Server
+                                Node 3.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Billing Section -->
+            <div id="billing" class="dashboard-section">
+                <h1 class="text-gradient">Invoices</h1>
+                <div class="glass-card" style="margin-top: 20px; padding: 20px;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Service</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Oct 01, 2025</td>
+                                <td>Managed SOC Service</td>
+                                <td>$2,499.00</td>
+                                <td><span style="color: var(--success-color)">Paid</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sep 01, 2025</td>
+                                <td>Managed SOC Service</td>
+                                <td>$2,499.00</td>
+                                <td><span style="color: var(--success-color)">Paid</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Training Section -->
+            <div id="training" class="dashboard-section">
+                <h1 class="text-gradient">Security Academy</h1>
+                <div class="glass-card" style="margin-top: 20px; padding: 30px;">
+                    <h3>Current Progress: Security Awareness 2026</h3>
+                    <div
+                        style="width: 100%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin: 15px 0; overflow: hidden;">
+                        <div style="width: 65%; height: 100%; background: var(--primary-color);"></div>
+                    </div>
+                    <p style="margin-bottom: 30px;">65% Complete</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div
+                            style="padding: 15px; border: 1px solid var(--success-color); border-radius: 8px; background: rgba(0, 230, 118, 0.05); display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>Module 1: Phishing Fundamentals</strong>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Completed on Jan 05, 2026</p>
+                            </div>
+                            <span style="color: var(--success-color);">✓ Done</span>
+                        </div>
+                        <div
+                            style="padding: 15px; border: 1px solid var(--success-color); border-radius: 8px; background: rgba(0, 230, 118, 0.05); display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>Module 2: Password Hygiene</strong>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Completed on Jan 10, 2026</p>
+                            </div>
+                            <span style="color: var(--success-color);">✓ Done</span>
+                        </div>
+                        <div
+                            style="padding: 15px; border: 1px solid var(--card-border); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>Module 3: Social Engineering</strong>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Est. Time: 15 mins</p>
+                            </div>
+                            <button class="btn btn-primary" style="padding: 5px 15px; font-size: 0.8rem;">Start</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="dashboard-section">
+                <h1 class="text-gradient">Account Settings</h1>
+                <div class="glass-card" style="margin-top: 20px; padding: 30px; max-width: 600px;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px;">Security Officer Name</label>
+                        <input type="text" value="Alex User"
+                            style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); color: var(--text-color); border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px;">Contact Email</label>
+                        <input type="email" value="alex@vortexsecurity.io"
+                            style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); color: var(--text-color); border-radius: 5px;">
+                    </div>
+                    <button class="btn btn-primary">Update Profile</button>
+                </div>
+            </div>
+
+        </main>
+
+        <script src="main.js"></script>
+        <script src="tilt.js"></script>
+        <script src="bg-3d.js"></script>
+        <script src="threat-charts.js"></script>
+
+
+
+    </div>
+
+    <footer class="dashboard-footer" style="background: var(--card-bg); border-top: 1px solid var(--card-border);">
+        <div class="container" style="padding: 60px 20px 30px;">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h3 style="margin-bottom: 20px;"><span class="text-gradient">VORTEX</span>SECURITY</h3>
+                    <p style="opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">Securing your digital future with
+                        military-grade threat detection and 24/7 monitoring.</p>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none;">X</a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none;">in</a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); text-decoration: none;">ig</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="about.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">About Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="services.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Services</a></li>
+                        <li style="margin-bottom: 10px;"><a href="contact.html"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Our Services</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="services.html#threat-detection"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Threat
+                                Detection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="services.html#network-security"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Network
+                                Security</a></li>
+                        <li style="margin-bottom: 10px;"><a href="services.html#incident-response"
+                                style="color: var(--text-color); text-decoration: none; opacity: 0.8;">Incident
+                                Response</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px; color: var(--primary-color);">Contact Us</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📍 Cyber Fortress Alpha<br>Silicon Valley, CA
+                        </li>
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📧 secure@vortexsecurity.io</li>
+                        <li style="margin-bottom: 10px; opacity: 0.8;">📞 +1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--card-border); padding-top: 30px; text-align: center;">
+                <p style="opacity: 0.7;">&copy;
+                    <script>document.write(new Date().getFullYear())</script> Vortex Security. All rights reserved. | <a
+                        href="#" style="color: var(--primary-color); text-decoration: none;">Privacy Policy</a> | <a
+                        href="#" style="color: var(--primary-color); text-decoration: none;">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="rtlToggle.js"></script>
+    <script>
+        // Sidebar Toggle Logic
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        const closeBtn = document.querySelector('.sidebar-close');
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900 &&
+                !sidebar.contains(e.target) &&
+                !toggleBtn.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+
+
+        // Global Chart Defaults
+        const isDarkTheme = () => document.body.classList.contains('dark-theme');
+        const getChartColor = () => isDarkTheme() ? '#ffffff' : '#1a1a2e';
+        const getGridColor = () => isDarkTheme() ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+        Chart.defaults.color = getChartColor();
+        Chart.defaults.borderColor = getGridColor();
+
+        const charts = {};
+
+        // Usage Chart (Attempted Intrusions)
+        const ctx = document.getElementById('usageChart').getContext('2d');
+        charts.usage = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Attacks Blocked',
+                    data: [12, 19, 3, 5, 2, 3, 10],
+                    borderColor: '#6366f1',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Threat Types Chart (Pie)
+        const ctxThreat = document.getElementById('threatTypesChart').getContext('2d');
+        charts.threatTypes = new Chart(ctxThreat, {
+            type: 'pie',
+            data: {
+                labels: ['Malware', 'Phishing', 'DDoS', 'Ransomware', 'Brute Force'],
+                datasets: [{
+                    data: [35, 25, 20, 12, 8],
+                    backgroundColor: ['#6366f1', '#ec4899', '#8b5cf6', '#22c55e', '#f59e0b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Security Score Chart (Line)
+        const ctxScore = document.getElementById('securityScoreChart').getContext('2d');
+        charts.securityScore = new Chart(ctxScore, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Security Score',
+                    data: [85, 88, 92, 90, 95, 98],
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        min: 70,
+                        max: 100,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Weekly Attack Chart (Bar)
+        const ctxWeekly = document.getElementById('weeklyAttackChart').getContext('2d');
+        charts.weeklyAttack = new Chart(ctxWeekly, {
+            type: 'bar',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Attacks',
+                    data: [45, 32, 28, 15],
+                    backgroundColor: '#ec4899'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Network Traffic Chart (Area)
+        const ctxNetwork = document.getElementById('networkTrafficChart').getContext('2d');
+        charts.networkTraffic = new Chart(ctxNetwork, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                datasets: [{
+                    label: 'Inbound',
+                    data: [120, 80, 200, 350, 280, 150],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Outbound',
+                    data: [100, 60, 180, 300, 240, 130],
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: getChartColor() }
+                    }
+                },
+                scales: {
+                    y: {
+                        display: true,
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    },
+                    x: {
+                        display: true,
+                        grid: { color: getGridColor() },
+                        ticks: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // Severity Distribution Chart (Doughnut)
+        const ctxSeverity = document.getElementById('severityChart').getContext('2d');
+        charts.severity = new Chart(ctxSeverity, {
+            type: 'doughnut',
+            data: {
+                labels: ['Critical', 'High', 'Medium', 'Low'],
+                datasets: [{
+                    data: [5, 15, 35, 45],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#eab308', '#22c55e'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: getChartColor() }
+                    }
+                }
+            }
+        });
+
+        // App Security Profile (Radar)
+        const ctxAppSec = document.getElementById('appSecurityChart').getContext('2d');
+        charts.appSecurity = new Chart(ctxAppSec, {
+            type: 'radar',
+            data: {
+                labels: ['Encryption', 'Patching', 'Access Control', 'Logging', 'Network Seg.', 'MFA'],
+                datasets: [{
+                    label: 'Current Setup',
+                    data: [90, 80, 75, 85, 70, 95],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: { color: getGridColor() },
+                        grid: { color: getGridColor() },
+                        pointLabels: { color: getChartColor() },
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Vulnerability Timeline (Area)
+        const ctxVuln = document.getElementById('vulnerabilityTimelineChart').getContext('2d');
+        charts.vulnerabilityTimeline = new Chart(ctxVuln, {
+            type: 'line',
+            data: {
+                labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'],
+                datasets: [{
+                    label: 'Vulnerabilities',
+                    data: [15, 12, 8, 5, 3, 2],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } },
+                    x: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } }
+                }
+            }
+        });
+
+        // Device Trust Level (Doughnut)
+        const ctxDevice = document.getElementById('deviceTrustChart').getContext('2d');
+        charts.deviceTrust = new Chart(ctxDevice, {
+            type: 'doughnut',
+            data: {
+                labels: ['Trusted', 'Unverified', 'Risk'],
+                datasets: [{
+                    data: [85, 10, 5],
+                    backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom', labels: { color: getChartColor() } } }
+            }
+        });
+
+        // Login Activity Locations (Polar Area)
+        const ctxLogin = document.getElementById('loginLocationsChart').getContext('2d');
+        charts.loginLocations = new Chart(ctxLogin, {
+            type: 'polarArea',
+            data: {
+                labels: ['USA', 'UK', 'Germany', 'Japan', 'Others'],
+                datasets: [{
+                    data: [1200, 400, 350, 200, 100],
+                    backgroundColor: ['#6366f1', '#ec4899', '#8b5cf6', '#22c55e', '#f59e0b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom', labels: { color: getChartColor() } } },
+                scales: { r: { grid: { color: getGridColor() } } }
+            }
+        });
+
+        // API Request Volume (Line)
+        const ctxApi = document.getElementById('apiVolumeChart').getContext('2d');
+        charts.apiVolume = new Chart(ctxApi, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '08:00', '16:00', '23:59'],
+                datasets: [{
+                    label: 'Requests',
+                    data: [5000, 15000, 25000, 8000],
+                    borderColor: '#8b5cf6',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } },
+                    x: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } }
+                }
+            }
+        });
+
+        // Network Latency (Scatter)
+        const ctxLatency = document.getElementById('latencyChart').getContext('2d');
+        charts.latency = new Chart(ctxLatency, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Latency Packets',
+                    data: Array.from({ length: 20 }, () => ({
+                        x: Math.random() * 24,
+                        y: Math.random() * 50 + 10
+                    })),
+                    backgroundColor: '#00f3ff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { type: 'linear', position: 'bottom', grid: { color: getGridColor() }, ticks: { color: getChartColor() } },
+                    y: { grid: { color: getGridColor() }, ticks: { color: getChartColor() } }
+                }
+            }
+        });
+
+        // Update charts on theme change
+        window.addEventListener('themeChanged', (e) => {
+            const newColor = getChartColor();
+            const newGridColor = getGridColor();
+
+            Chart.defaults.color = newColor;
+            Chart.defaults.borderColor = newGridColor;
+
+            Object.values(charts).forEach(chart => {
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.ticks.color = newColor;
+                        if (chart.options.scales.x.grid) chart.options.scales.x.grid.color = newGridColor;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.ticks.color = newColor;
+                        if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = newGridColor;
+                    }
+                }
+                if (chart.options.plugins && chart.options.plugins.legend) {
+                    chart.options.plugins.legend.labels.color = newColor;
+                }
+                chart.update();
+            });
+        });
+    </script>
+</body>
+
+</html>
